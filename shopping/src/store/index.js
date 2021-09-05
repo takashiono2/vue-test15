@@ -7,8 +7,9 @@ import shop from '@/api/shop.js'
 
 export default new Vuex.Store({
   state: {
-    products : [],
-    items : [],
+    products: [],
+    items: [],
+    checkoutStatus: null
   },
   mutations: {
     setProducts(state, products){
@@ -20,6 +21,20 @@ export default new Vuex.Store({
         quantity: 1
       })
     },
+    incrementItemQuantity(state,{ id }){
+      const cartItem = state.items.find(item => item.id === id);
+      cartItem.quantity++;
+    },
+    decrementProductIventory(state, { id }){
+      const product = state.products.find(product => product.id === id);
+      product.inventory--;
+    },
+    setCartItems(state, { items }){
+      state.items = items
+    },
+    setCheckoutStatus(state, status){
+      state.checkoutStatus = status
+    }
   },
   actions: {
     getAllProducts({commit}){
@@ -31,11 +46,6 @@ export default new Vuex.Store({
       commit('pushProductToCart', product)
     }
   },
-// getAllProducts(context){
-// 	shop.getProducts(products => {
-// 		context.commit('setProducts', products);
-// 	})
-// },
   getters: {
     cartProducts: state =>{
       return state.items.map(item =>{
@@ -46,8 +56,13 @@ export default new Vuex.Store({
           quantity: item.quantity
         }
       })
+    },
+    cartTotalPrice:(state, getters) => {
+      return getters.cartProducts.reduce((total, product) => {
+        return total + product.price * product.quantity
+      }, 0)
     }
   },
-  modules: {
-  }
+    modules: {
+    }
 })

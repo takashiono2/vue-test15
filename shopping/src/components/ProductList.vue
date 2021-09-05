@@ -2,7 +2,7 @@
 	<ul>
 		<li v-for="product in products" v-bind:key="product.id">
 			{{ product.title }} - {{ product.price }}<br>
-			<button @click="addProductToCart(product)">
+			<button @click="addProductToCart(product)" :disabled="!product.inventory">
 				Add to cart
 			</button>
 		</li>
@@ -10,25 +10,23 @@
 </template>
 
 <script>
-  export default{
-    computed:{
-      products(){
-        return this.$store.state.products;
-      }
-    },
+import { mapState } from 'vuex'
+
+	export default{
+		computed: mapState(['products']),
     created(){
       this.$store.dispatch('getAllProducts')
-    }
+    },
+		methods: {
+			addProductToCart({state,commit},product){
+				const cartItem = state.items.find(item => item.id === product.id)
+				if(!cartItem){
+					commit('pushProductToCart',product)
+				}else{
+					commit('incrementItemQuantity',cartItem);
+				}
+				commit('decrementProductIventory',product);
+			}
+		}
   }
-	//import shop from '@/api/shop.js'
-	// export default{
-	// 	data(){
-	// 		return {
-	// 			products : [],
-	// 		}
-	// 	},
-	// 	created(){
-	// 		shop.getProducts( products => this.products = products);
-	// 	}
-	// }
 </script>
