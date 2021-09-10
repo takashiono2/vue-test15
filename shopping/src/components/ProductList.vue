@@ -21,6 +21,6 @@ import { mapState } from 'vuex'
 			addProductToCart(product){
 				this.$store.dispatch('addProductToCart',product)
 			}
-  }
-}
+		}
+	}
 </script>

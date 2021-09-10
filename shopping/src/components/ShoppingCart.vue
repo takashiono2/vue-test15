@@ -21,7 +21,6 @@
 
 <script>
 import { mapGetters,mapState } from 'vuex'
-import shop from '@/api/shop.js'
 
 export default {
   computed: {
@@ -29,18 +28,8 @@ export default {
     ...mapState(['checkoutStatus']),
   },
   methods: {
-    checkout ({ state,commit }, products) {
-      const savedCartItems = state.items
-      commit('setCheckoutStatus', 'before checkout')
-      commit('setCartItems', { items: [] })
-      shop.buyProducts(
-        products,
-        () => commit('setCheckoutStatus', 'successful'),
-        () => {
-          commit('setCheckoutStatus', 'failed')
-          commit('setCartItems', { items: savedCartItems })
-        }
-      )
+    checkout(cartProducts){
+      this.$store.dispatch('checkout',cartProducts)
     }
   }
 }

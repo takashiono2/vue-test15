@@ -50,6 +50,19 @@ export default new Vuex.Store({
         commit('incrementItemQuantity',cartItem);
       }
       commit('decrementProductIventory',product);
+    },
+    checkout ({ state,commit }, products) {
+      const savedCartItems = state.items
+      commit('setCheckoutStatus', 'before checkout')
+      commit('setCartItems', { items: [] })
+      shop.buyProducts(
+        products,
+        () => commit('setCheckoutStatus', 'successful'),
+        () => {
+          commit('setCheckoutStatus', 'failed')
+          commit('setCartItems', { items: savedCartItems })
+        }
+      )
     }
   },
   getters: {
@@ -69,6 +82,6 @@ export default new Vuex.Store({
       }, 0)
     }
   },
-    modules: {
+  modules: {
     }
 })
