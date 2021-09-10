@@ -18,24 +18,16 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['increment']) 
-    // increment(){
-    //   this.$store.dispatch('increment');
-    // }
+    //...mapActions(['increment'])を元の形に
   },
   computed: {
     upper(){
       return this.message.toUpperCase();
     },
-    ...mapGetters(['double']),
-    // double(){
-    //   return this.$store.getters.double;
-    // },
-    ...mapState(['count'])
-  //   count(){
-  //     return $store.state.count
-  //   }
-  // }
+    //...mapGetters(['double']),を元の形に
+    
+    //...mapState(['count'])を元の形に
+
   }
 }
 </script>

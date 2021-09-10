@@ -18,15 +18,9 @@ import { mapState } from 'vuex'
       this.$store.dispatch('getAllProducts')
     },
 		methods: {
-			addProductToCart({state,commit},product){
-				const cartItem = state.items.find(item => item.id === product.id)
-				if(!cartItem){
-					commit('pushProductToCart',product)
-				}else{
-					commit('incrementItemQuantity',cartItem);
-				}
-				commit('decrementProductIventory',product);
+			addProductToCart(product){
+				this.$store.dispatch('addProductToCart',product)
 			}
-		}
   }
+}
 </script>

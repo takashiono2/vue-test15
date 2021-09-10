@@ -13,13 +13,11 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    double: function(state){
-      return state.count**2;
+    //countを２乗の計算
     }
   },
   actions: {
-    increment : function(context){
-      context.commit('increment')
+    // actionsを実行
     }
   }
 })

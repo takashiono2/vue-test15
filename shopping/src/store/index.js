@@ -42,8 +42,14 @@ export default new Vuex.Store({
         commit('setProducts', products);
       })
     },
-    addProductToCart({commit},product){
-      commit('pushProductToCart', product)
+    addProductToCart({state,commit},product){
+      const cartItem = state.items.find(item => item.id === product.id)
+      if(!cartItem){
+        commit('pushProductToCart',product);
+      }else{
+        commit('incrementItemQuantity',cartItem);
+      }
+      commit('decrementProductIventory',product);
     }
   },
   getters: {
